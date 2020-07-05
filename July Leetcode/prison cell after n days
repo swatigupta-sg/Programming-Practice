@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<int> prisonAfterNDays(vector<int>& cells, int N){ 
+        if(N==0) return cells;
+        map<int,vector<int>> m;
+        set<vector<int>> s;
+        int size=0;
+        cout<<endl;
+        for(int i=1;i<=N;i++){
+            vector<int> temp(8, 0);
+            for(int j=1;j<7;j++){
+                if(cells[j-1]^cells[j+1] == 0) temp[j] = 1;
+            }
+            m[i] = temp;
+            cells = temp;
+            if(s.find(temp)==s.end()){
+                s.insert(temp);
+                size++;
+            }
+            else{
+                break;
+            }
+        }
+        return m[ N % size == 0 ? size : N % size];
+    }
+};
