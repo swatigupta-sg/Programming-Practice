@@ -1,0 +1,27 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--){
+	    int n;
+	    cin>>n;
+	    long long int x[4*n-1];
+	    long long int y[4*n-1];
+	    long long int p,q;
+	    for(int i=0;i<(4*n-1);i++){
+	        cin>>p>>q;
+	        x[i] = p;
+	        y[i] = q;
+	    }
+	    p = q = 0;
+	    for(int i=0;i<(4*n-1);i++){
+	        p = p ^ x[i];
+	        q = q ^ y[i];
+	    }
+	    cout<<p<<" "<<q<<endl;
+	}
+	return 0;
+}
+
