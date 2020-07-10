@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int widthOfBinaryTree(TreeNode* root) {
+        if(root==NULL) return 0;
+        queue<pair<TreeNode *, int>> q;
+        q.push({root,1});
+        int ans = INT_MIN;
+        while(!q.empty()){            
+            int cnt = q.size();
+            int maxx = q.front().second;
+            int minn = q.back().second;
+            ans = max(ans, (maxx-minn+1));
+            while(cnt--){
+                auto p = q.front();
+                TreeNode * node = p.first;
+                int x = p.second;
+                cout<<node->val<<" ";
+                q.pop();
+                if(node->left){
+                    q.push({node->left, 2*x});
+                }
+                if(node->right){
+                    q.push({node->right, 2*x-1});
+                }
+            }
+        }
+        return ans;
+    }
+};
