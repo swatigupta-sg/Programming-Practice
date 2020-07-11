@@ -1,0 +1,27 @@
+class Solution {
+public:
+    Node* flatten(Node* head) {
+        if(head==NULL) return head;
+        stack<Node *> s;
+        s.push(head);
+        Node * p = NULL;
+        while(!s.empty()){
+            Node *temp = s.top();
+            s.pop();
+            if(temp->next) s.push(temp->next);
+            if(temp->child) s.push(temp->child);
+            if(p==NULL){
+                p = temp;
+                p->next = p->prev = NULL;
+                p->child = NULL;
+            }
+            else{ 
+                p->next = temp;
+                temp->prev = p;
+                temp->child = NULL;
+                p = p->next;
+            }
+        }
+        return head;
+    }
+};
