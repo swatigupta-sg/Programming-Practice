@@ -1,0 +1,10 @@
+class Solution {
+public:
+    double angleClock(int hour, int minutes) {
+        double hour_angle = 0.5*(hour*60 + minutes);
+        double min_angle = 6 * minutes;
+            //(hour*60 + minutes);
+        double result = abs(hour_angle-min_angle);
+        return min(result, 360-result);
+    }
+};
