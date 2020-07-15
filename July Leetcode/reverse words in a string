@@ -1,0 +1,21 @@
+class Solution {
+public:
+    string reverseWords(string s) {
+        if(s=="") return s;
+        vector<string> v;
+        char * ptr = strtok((char*)s.c_str()," ");
+        while(ptr!=NULL){
+            v.push_back(ptr);
+            ptr = strtok(NULL," ");
+        }
+        string ans = "";
+        if(v.size()==0) return ans;
+        int n = v.size();
+        for(int i=n-1;i>=1;i--){
+            ans += v[i];
+            ans += " ";
+        }
+        ans += v[0];
+        return ans;
+    }
+};
