@@ -1,0 +1,23 @@
+class Solution {
+    
+public:
+    
+    bool allSmall(string s){
+        for(int i=1;i<s.length();i++){
+            if(s[i]>=65 && s[i]<=90) return false;
+        }
+        return true;
+    }
+    
+    bool allCap(string s){
+        for(int i=1;i<s.length();i++){
+            if(s[i]>=97 && s[i]<=122) return false;
+        }
+        return true;
+    }
+    
+    bool detectCapitalUse(string word){
+        if(word[0]>=97 && word[0]<=122) return allSmall(word);
+        else return allSmall(word) || allCap(word);
+    }
+};
