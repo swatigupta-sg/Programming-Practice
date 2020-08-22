@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int cnt = 0;
+    void solution(TreeNode *root, int sum){
+        if(root==NULL) return;
+        if(sum==0) cnt++;
+        if(root->val>sum){
+            solution(root->left,sum);
+            solution(root->right,sum);
+        }
+        else{
+            solution(root->left,sum-root->val);
+            solution(root->right,sum-root->val);
+        }
+    }
+    
+    
+    int pathSum(TreeNode* root, int sum) {
+        solution(root,sum);
+        return cnt+1;
+    }
+};
