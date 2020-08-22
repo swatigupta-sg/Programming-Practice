@@ -1,0 +1,28 @@
+class Solution {
+public:
+    string toGoatLatin(string S) {
+        string str = "";
+        int cnt=1;
+        char * ptr = strtok((char*)S.c_str()," ");
+        string s;
+        while( ptr != NULL ){
+            s = ptr;
+            if(s[0]!='A' &&s[0]!='a' && s[0]!='E'&& s[0]!='e'&& s[0]!='I'&& s[0]!='i'&&s[0]!='O'&&s[0]!='o'&& s[0]!='U'&&s[0]!='u'){
+                char ch = s[0];
+                s = s.substr(1) + ch;
+            }
+            s +="ma";
+            int tmp = cnt;
+            while(tmp--){
+                s+="a";
+            }
+            cnt++;
+            str += s;
+            str+= " ";
+            ptr = strtok(NULL, " ");
+        }
+        //cout<<str<<endl;
+        int l = str.length();
+        return str.substr(0,l-1);
+    }
+};
