@@ -1,0 +1,32 @@
+struct tupless{
+        int sum;
+        int row;
+        int val;
+};
+bool comp(tupless t1, tupless t2){
+    if(t1.sum==t2.sum){
+        return t1.row>t2.row;
+    }
+    else return t1.sum<t2.sum;
+}
+class Solution {
+public:
+    vector<int> findDiagonalOrder(vector<vector<int>>& nums) {
+        tupless s;
+        vector<tupless> v;
+        for(int i=0;i<nums.size();i++){
+            for(int j=0;j<nums[i].size();j++){
+                s.sum = i+j;
+                s.row = i;
+                s.val = nums[i][j];
+                v.push_back(s);
+            }
+        }
+        sort(v.begin(),v.end(),comp);
+        vector<int> x;
+        for(auto m:v){
+            x.push_back(m.val);
+        }
+        return x;
+    }
+};
