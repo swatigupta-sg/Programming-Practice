@@ -1,0 +1,41 @@
+class Solution {
+public:
+    ListNode* sortList(ListNode* head) {
+        if(head==NULL || head->next==NULL)
+            return head;
+        
+        ListNode *slow = head;
+        ListNode *fast = head->next;
+        while(fast!= NULL && fast->next!=NULL){
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+        ListNode* left=head, *right=slow->next;
+        slow->next=NULL;
+        left = sortList(left);
+        right = sortList(right);
+        return mergeList(left,right);
+    }
+    ListNode* mergeList(ListNode* l1, ListNode* l2) {
+        if(l1 -> val <= l2 -> val && l1 -> next == NULL) {
+            l1 -> next = l2;
+            return l1;
+        }
+        if(l2 -> val <= l1 -> val && l2 -> next == NULL) {
+            l2 -> next = l1;
+            return l2;
+        }
+        
+        if(l1 -> val < l2 -> val) {
+            l1 -> next = mergeList(l1 -> next, l2);
+            return l1;
+        } else if(l1 -> val == l2 -> val) {
+            l1 -> next = mergeList(l1 -> next, l2 -> next);
+            l2 -> next = l1;
+            return l2;
+        } else {
+            l2 -> next = mergeList(l1, l2 -> next);
+            return l2;
+        }
+    }
+};
