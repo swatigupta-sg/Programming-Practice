@@ -1,0 +1,25 @@
+#include <bits/stdc++.h>
+using namespace std;
+bool comp(string s1,string s2){
+    if(s1.length()==s2.length()) return s1<s2;
+    else return s1.length()<s2.length();
+}
+int main() {
+    int n;
+    cin>>n;
+    vector<string> ans;
+    queue<string> q;
+    q.push("44");
+    q.push("55");
+    while(ans.size()<n){
+        string tmp = q.front();
+        q.pop();
+        ans.push_back(tmp);
+        q.push("4" + tmp + "4");
+        q.push("5" + tmp + "5");
+    }
+    sort(ans.begin(), ans.end(),comp);
+    for(string s : ans){
+        cout<<s<<" ";
+    }
+}
