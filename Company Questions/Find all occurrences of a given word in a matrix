@@ -1,0 +1,49 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ROW 3
+#define COL 5
+int dx[] = {-1, -1, -1, 0, 0, 1, 1, 1}; 
+int dy[] = {-1, 0, 1, -1, 1, -1, 0, 1}; 
+
+void dfs(int x, int y, char mat[ROW][COL], char word[], int ind, int n, string path, bool visited[ROW][COL]){
+    if(ind>n || (mat[x][y] != word[ind])) return;
+   
+    path += word[ind] ;
+    path += ( "(" + to_string(x) + ", " + to_string(y) + ") ");
+
+    if(ind==n){
+        cout<<path<<endl;
+        return;
+    }
+    
+    visited[x][y] = true;
+    for(int i=0;i<8;i++){
+        if(x+dx[i]>=0 && x+dx[i]<ROW && y+dy[i]>=0 && y+dy[i]<COL && !visited[x+dx[i]][y+dy[i]] ){
+            dfs(x+dx[i], y+dy[i], mat,word,ind+1,n,path,visited);
+        }
+    }
+    visited[x][y] = false;
+}
+
+void findWords(char mat[ROW][COL], char word[], int n){
+    bool visited[ROW][COL] = {0};
+    for(int i=0;i<ROW;i++){
+        for(int j=0;j<COL;j++){
+            if(mat[i][j]==word[0]) dfs(i,j,mat,word,0,n,"", visited);
+        }
+    }
+}
+
+int main() 
+{ 
+    char mat[ROW][COL]= { {'B', 'N', 'E', 'Y', 'S'}, 
+                          {'H', 'E', 'D', 'E', 'S'}, 
+                          {'S', 'G', 'N', 'D', 'E'} 
+                        }; 
+  
+    char word[] ="DES"; 
+  
+    findWords(mat, word, strlen(word) - 1); 
+  
+    return 0; 
+} 
