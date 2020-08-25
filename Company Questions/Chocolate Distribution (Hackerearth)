@@ -1,0 +1,31 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main() {
+    int t;
+    cin>>t;
+    while(t--){
+        int n, k;
+        cin>>n>>k;
+        int a[n];
+        for(int i=0;i<n;i++) cin>>a[i];
+        long long int sum = 0;
+        long long int last_modulo[k+1];
+        memset( last_modulo , -1 , sizeof(last_modulo) );
+		last_modulo[0] = 0;
+        long long int ans = 0;
+		for( int i = 0 ; i < n ; i++ )
+		{
+			sum += a[i];
+			int tmp = sum % k ;
+			if( last_modulo[ tmp ] == -1 )
+			{
+				last_modulo[tmp] = sum ;
+			}
+			else
+			{
+				ans = max( ans , sum - last_modulo[tmp] );
+			}
+		}
+        cout<<ans/k<<endl;
+    }
+}
