@@ -1,0 +1,48 @@
+struct job{
+        long long int start, finish, pro;
+    };
+bool compare(job v1, job v2){
+        return v1.finish<v2.finish;
+    }
+class Solution {
+public:
+    int dp[50001];
+    int findnext(job v[], int i){
+        for(int j=i-1;j>=0;j--){
+            if(v[j].finish <= v[i-1].start) return j;
+        }
+        return -1;
+    }
+    
+    int solve(job v[], int n){
+        if(n==1) return v[n-1].pro;
+        if(dp[n] != -1) return dp[n];
+        
+        int inc = v[n-1].pro;
+        int ind = findnext(v, n);
+        if(ind != -1){
+            dp[ind+1] = solve(v,ind+1);
+             inc += dp[ind+1];
+        }
+        
+        dp[n-1] = solve(v, n-1);
+        int exc = dp[n-1];
+        return dp[n] = max(inc, exc);
+    }
+    
+    long long int jobScheduling(vector<int>& startTime, vector<int>& endTime, vector<int>& profit) {
+        memset(dp,-1,sizeof(dp));
+        int n =startTime.size();
+        job v[n];
+        
+        for(int i=0;i<n;i++){
+            job temp;
+            temp.start = (startTime[i]);
+            temp.finish = (endTime[i]);
+            temp.pro = (profit[i]);
+            v[i] = temp;
+        }
+        sort(v, v+n, compare);
+        return solve(v,n);
+    }
+};
