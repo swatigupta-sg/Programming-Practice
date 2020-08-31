@@ -1,0 +1,130 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+template<typename T>
+class Node{
+public:
+    string key;
+    T val;
+    Node<T>* next;
+
+    Node(string key, T val){
+        this->key = key;
+        this->val = val;
+        this->next = NULL;
+    }
+    ~Node(){
+        if(next!=NULL) delete next;
+    }
+};
+
+template<typename T>
+class Hashtable{
+    int table_size;
+    int current_size;
+    Node<T>** table;
+
+    int hashfn(string key){
+        int p = 1, ind = 0;
+        for(int i=0;i<key.length();i++){
+            ind = ind + (key[i]*p)%table_size;
+            ind = ind%table_size;
+            p = (p*27)%table_size;
+        }
+        return ind;
+    }
+
+    void rehash(){
+        Node<T> ** oldTable = table;
+        int oldsize = table_size;
+        table_size = 2*table_size;
+        table = new Node<T>* [table_size];
+
+        for(int i=0;i<table_size;i++){
+            table[i] = NULL;
+        }
+        current_size = 0;
+
+        for(int i=0;i<oldsize;i++){
+            Node<T> *temp = oldTable[i];
+            while(temp!=NULL){
+                insert(temp->key, temp->val);
+                temp = temp->next;
+            }
+            if(oldTable[i]!=NULL){
+                delete oldTable[i];
+            }
+        }
+        delete [] oldTable;
+    }
+
+public:
+    Hashtable(int ts = 7){
+        table_size = ts;
+        table = new Node<T>*[ts];
+        current_size = 0;
+
+        for(int i=0;i<ts;i++) table[i] = NULL;
+    }
+
+    void insert(string key, int value){
+        int ind = hashfn(key);
+        Node<T>* temp = new Node<T>(key,value);
+        temp->next = table[ind];
+        table[ind] = temp;
+        current_size++;
+
+        float loadfac = current_size/(1.0 * table_size);
+        if(loadfac>0.7){
+            rehash();
+        }
+    }
+
+    void print(){
+        for(int i=0;i<table_size;i++){
+            cout<<"BUCKET "<<i<<"->";
+            Node<T>*tmp = table[i];
+            while(tmp!=NULL){
+                cout<<tmp->key<<" -> ";
+                tmp = tmp->next;
+            }
+            cout<<endl;
+        }
+    }
+
+    T* search(string key){
+        int ind = hashfn(key);
+        Node<T> * tmp = table[ind];
+        while(tmp!=NULL){
+            if(tmp->key==key) return &tmp->val;
+            tmp = tmp->next;
+        }
+        return NULL;
+    }
+    T& operator[](string k){
+        T* f = search(k);
+        if(f==NULL){
+            T garbage;
+            insert(k, garbage);
+            f = search(k);
+        }
+        return *f;
+    }
+
+};
+
+int main() {
+    Hashtable<int> h;
+    h.insert("Burger", 120);
+    h.insert("Pepsi", 20);
+    h.insert("Maggi", 40);
+    h.insert("BurgerPizza", 150);
+    h.insert("Noodle", 25);
+    h.print();
+    int * p = h.search("Noodle");
+    if(p!=NULL) cout<<"Price is "<<*p<<endl;
+    else cout<<"Not Found"<<endl;
+    h["Dosa"] = 50;
+    h["Dosa"] += 20;
+    cout<<"price of Dosa is "<<h["Dosa"]<<endl;
+}
