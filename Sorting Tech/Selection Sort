@@ -1,0 +1,21 @@
+#include <iostream>
+using namespace std;
+
+void SelectionSort(int a[], int n){
+    for(int i=0;i<n;i++){
+        int min = i;
+        for(int j=i;j<n;j++){
+            if(a[j]<a[min]){
+                min = j;
+            }
+        }
+        swap(a[min], a[i]);
+    }
+}
+
+int main() {
+    int a[] = {3,5,2,6,7,8,1,9,4};
+    int n = sizeof(a)/sizeof(int);
+    SelectionSort(a,n);
+    for(int i=0;i<n;i++) cout<<a[i]<<" ";
+}
