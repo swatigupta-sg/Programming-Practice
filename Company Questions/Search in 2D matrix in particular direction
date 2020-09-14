@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define R 3
+#define C 14
+
+int dx[] = {-1,-1,-1,0,0,1,1,1};
+int dy[] = {-1,0,1,-1,1,-1,0,1};
+
+bool dfs(int x, int y, string word, char grid[][C]){
+    int len = word.length();
+    for(int i=0;i<8;i++){
+        int k, rx= x+dx[i], cy = y+dy[i];
+        for(k=1;k<len;k++){
+            if(rx<0 || rx>=R || cy<0 || cy>=C) break;
+            if(grid[rx][cy] != word[k]) break;
+            rx += dx[i];
+            cy += dy[i];
+        }
+        if(k==len) return true;
+    }
+    return false;
+}
+
+void patternSearch(char grid[][C], string word){
+    for(int i=0;i<R;i++){
+        for(int j=0;j<C;j++){
+            if(grid[i][j] == word[0]){
+                if(dfs(i,j,word,grid)) cout<<"found at "<<i<<" "<<j<<endl;
+            }
+        }
+    }
+}
+
+int main() 
+{ 
+    char grid[R][C] = { "GEEKSFORGEEKS", 
+                        "GEEKSQUIZGEEK", 
+                        "IDEQAPRACTICE" }; 
+  
+    patternSearch(grid, "GEEKS"); 
+    cout << endl; 
+    patternSearch(grid, "EEE"); 
+    return 0; 
+} 
