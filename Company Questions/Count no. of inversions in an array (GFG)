@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int merge(int arr[], int s, int e){
+    int mid = (s+e)/2;
+    int i = s,j = mid+1,k= s, flag = 1;
+    int temp[e+1];
+    int cnt = 0;
+    while(i<=mid && j<=e){
+        if(arr[i]<=arr[j]) temp[k++] = arr[i++];
+        else{
+            if(flag){
+                cnt += (mid-i+1)*(e-j+1);
+                flag = 0;
+            }
+            temp[k++] = arr[j++];            
+        }
+    }
+    while(i<=mid) temp[k++] = arr[i++];
+    while(j<=e) temp[k++] = arr[j++];
+    for(k=s;k<=e;k++){
+        arr[k] = temp[k];
+    }
+    return cnt;
+}
+
+int solve(int arr[], int s, int e){
+    int cnt = 0;
+    if(s>=e) return cnt;
+    int mid = (s+e)/2;
+    cnt += solve(arr,s,mid);
+    cnt += solve(arr, mid+1, e);
+    cnt += merge(arr,s,e);
+    return cnt;
+}
+
+int main(){
+    int arr[] = {3, 1, 2};
+    int n = sizeof(arr)/sizeof(int);
+    cout<<solve(arr,0,n-1);
+}
