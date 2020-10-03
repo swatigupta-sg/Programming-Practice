@@ -1,0 +1,45 @@
+int prec(char a){
+    if(a=='^') return 3;
+    else if(a=='*' || a=='/') return 2;
+    else if(a=='+' || a=='-') return 1;
+    else return -1;
+}
+// The main function to convert infix expression
+//to postfix expression
+string infixToPostfix(string s)
+{
+    stack<char> t;
+    t.push('N');
+    string str = "";
+    
+    for(int i=0;i<s.length();i++){
+        if((s[i]>='a' && s[i]<='z') || (s[i]>='A' && s[i]<='Z')) str+=s[i];
+        else if(s[i]=='(') t.push(s[i]);
+        else if(s[i]==')'){
+            while(t.top()!='N' && t.top()!='('){
+                char e = t.top();
+                t.pop();
+                str+= e;
+            }
+            if(t.top()=='('){
+                t.pop();
+            }
+        }
+        else{
+            while(t.top()!='N' && prec(s[i])<=prec(t.top())){
+                char e= t.top();
+                t.pop();
+                str+= e;
+            }
+            t.push(s[i]);
+        }
+    }
+    
+    while(t.top()!='N'){
+        char e= t.top();
+        t.pop();
+        str+= e;
+    }
+    
+    return str;
+}
