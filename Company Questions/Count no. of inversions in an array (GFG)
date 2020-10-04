@@ -3,16 +3,13 @@ using namespace std;
 
 int merge(int arr[], int s, int e){
     int mid = (s+e)/2;
-    int i = s,j = mid+1,k= s, flag = 1;
+    int i = s,j = mid+1,k=s;
     int temp[e+1];
     int cnt = 0;
     while(i<=mid && j<=e){
         if(arr[i]<=arr[j]) temp[k++] = arr[i++];
         else{
-            if(flag){
-                cnt += (mid-i+1)*(e-j+1);
-                flag = 0;
-            }
+            cnt += (mid-i+1)*(e-j+1);
             temp[k++] = arr[j++];            
         }
     }
